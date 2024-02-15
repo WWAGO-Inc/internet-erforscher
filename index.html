@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kapselordnung</title>
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="img/favicon.ico" type="img/x-icon">
+    <style>
+        body {
+            background-color: #222;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header, main, footer {
+            padding: 20px;
+            box-sizing: border-box;
+            max-width: 800px; /* Set your desired max-width */
+            margin: 0; /* Set margin to 0 for left alignment */
+        }
+        header img {
+            max-width: 80px;
+            height: auto;
+            margin-right: 15px;
+            width: 50px;
+            height: 50px;
+            vertical-align: middle; /* Align the image vertically */
+        }
+        header h1 {
+            margin: 0;
+            display: inline-block;
+            vertical-align: middle; /* Align the text vertically */
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        nav li {
+            display: inline;
+            margin-right: 15px;
+        }
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+        button {
+            background-color: #555;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        input[type="text"], input[type="password"], textarea {
+            background-color: #333;
+            color: #fff;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            width: 150px;
+        }
+        main img {
+            max-width: 80px;
+            height: auto;
+            margin-right: 15px;
+            vertical-align: middle; /* Align the image vertically */
+        }
+        main h2 {
+            margin: 0;
+            display: inline-block;
+            vertical-align: middle; /* Align the text vertically */
+        }
+        section {
+            margin-bottom: 20px;
+        }
+        section img {
+            max-width: 100%; /* Ensure the image doesn't exceed its original width */
+            height: auto; /* Maintain the aspect ratio */
+            margin-right: 15px;
+            margin-bottom: 15px; /* Add bottom margin to separate image and text */
+            vertical-align: middle; /* Align the image vertically */
+        }
+        section#section2 img {
+            width: 75px;
+            height: 75px;
+        }
+        section#section3 img {
+            width: 75px;
+            height: 75px;
+        }
+        section#section6 img {
+            display: block; /* Set the image to block-level to make it appear above the text */
+            width: 200px;
+            height: 200px;
+            margin-bottom: 10px; /* Add some space between the image and the text */
+        }
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+        body::-webkit-scrollbar-thumb {
+            background-color: #444;
+            border-radius: 6px;
+        }
+        body::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+        body::-webkit-scrollbar-track-piece {
+            background-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="site"><img src="img/jakobsoft-logo.png" alt="Jakobsoft Logo"></a>
+        <h1>Jakobsoft</h1>
+    </header>
+
+<main>
+    <section id="section1">
+        <h2>Winwows</h2>
+        <p>Jakobsoft® Winwows Installer</p>
+        <button onclick="window.location.href='winwows'">Download</button>
+    </section>
+
+    <section id="section2">
+        <img src="img/rickrollblocker.png" alt="Bild von Rickrollblocker Logo">
+        <h2>Rickrollblocker</h2>
+        <p>Er blockiert jeden Rickroll 100% unzuverlässig!</p>
+        <button disabled>Download</button>
+    </section>
+
+    <section id="section3">
+        <img src="img/internet-erforscher.png" alt="Bild von Internet Erforscher">
+        <h2>Internet Erforscher</h2>
+        <p>Der Beste Browser Der Welt von Jakobsoft®</p>
+        <button disabled>Download</button>
+    </section>
+
+    <section id="section4">
+        <img src="img/product-keys.png" alt="Bild von Product Keys">
+        <h2>Jakobsoft® Winwows Product Keys</h2>
+        <p>Die Ultimative Geldverschwendung Lieber Gratkey!</p>
+        <button onclick="alert('Psst! Geh Zu Gratkey.virus und Hol ihn dir Ähhm KEINE GLATIS KEY HIER!!')">Product Key Kaufen!</button>
+    </section>
+
+    <section id="section6">
+        <img src="img/jakobsoft-router.png" alt="Bild von J-5894 Moden">
+        <h2>Jakobsoft® Modem</h2>
+        <p>Das Neue J-5894 DFÜ Modem (Nur Mit Internet Erforscher Gültig)</p>
+        <button onclick="playAudio()">Kaufen</button>
+    </section>
+
+    <section id="section7">
+        <h2>Gratspiel Download Beta 1.0</h2>
+        <p>Der Downloader für Spiele (BETA)</p>
+        <button onclick="window.location.href='downloader'">Download</button>
+    </section>
+</main>
+
+<footer>
+<p>&copy; WWAGO Studios</p>    
+<p>&copy; Jakobsoft Inc.</p>
+</footer>
+
+<audio id="56k" src="img/56k.mp3"></audio>
+
+<script>
+    function playAudio() {
+        var audio = document.getElementById("56k");
+        audio.play();
+        audio.addEventListener('ended', function(){
+        alert('Error 404: Modem Not Found :(');
+        });
+    }
+</script>
+
+</body>
+</html>
