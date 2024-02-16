@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pong Spiel in HTML</title>
+  <style>
+    /* Gestalte das Canvas-Element */
+    canvas {
+      border: 1px solid white;
+      background: black;
+    }
+
+    /* Gestalte den Punktestand */
+    .score {
+      color: white;
+      font-family: Arial;
+      font-size: 32px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Erstelle ein Canvas-Element, um das Spiel zu zeichnen -->
+  <canvas id="game" width="800" height="600"></canvas>
+  <!-- Erstelle ein Element, um den Punktestand anzuzeigen -->
+  <div id="score" class="score">0 : 0</div>
+  <!-- Erstelle ein Skript-Element, um das Spiel zu steuern -->
+  <script>
+    // Hole das Canvas-Element und seinen Kontext
+    const canvas = document.getElementById("game");
+    const context = canvas.getContext("2d");
+
+    // Definiere einige Konstanten für das Spiel
+    const paddleWidth = 20; // Die Breite der Schläger
+    const paddleHeight = 100; // Die Höhe der Schläger
+    const ballRadius = 10; // Der Radius des Balls
+    const maxScore = 10; // Die maximale Punktzahl, um das Spiel zu gewinnen
+
+    // Definiere einige Variablen für das Spiel
+    let leftScore = 0; // Die Punktzahl des linken Spielers
+    let rightScore = 0; // Die Punktzahl des rechten Spielers
+    let leftPaddleY = canvas.height / 2 - paddleHeight / 2; // Die Y-Position des linken Schlägers
+    let rightPaddleY = canvas.height / 2 - paddleHeight / 2; // Die Y-Position des rechten Schlägers
+    let ballX = canvas.width / 2; // Die X-Position des Balls
+    let ballY = canvas.height / 2; // Die Y-Position des Balls
+    let ballDX = Math.random() < 0.5 ? -4 : 4; // Die X-Richtung des Balls
+    let ballDY = Math.random() * 8 - 4; // Die Y-Richtung des Balls
+    let leftUp = false; // Ob die W-Taste gedrückt ist
+    let leftDown = false; // Ob die S-Taste gedrückt ist
+    let rightUp = false; // Ob die Pfeiltaste nach oben gedrückt ist
+    let rightDown = false; // Ob die Pfeiltaste nach unten gedrückt ist
+
+    // Definiere eine Funktion, um das Spiel zu aktualisieren
+    function update() {
+      // Bewege die Schläger entsprechend den gedrückten Tasten
+      if (leftUp) {
+        leftPaddleY -= 5;
+      }
+      if (leftDown) {
+        leftPaddleY += 5;
+      }
+      if (rightUp) {
+        rightPaddleY -= 5;
+      }
+      if (rightDown) {
+        rightPaddleY += 5;
+      }
+
+      // Begrenze die Schläger innerhalb des Canvas
+      if (leftPaddleY < 0) {
+        leftPaddleY = 0;
+      }
+      if (leftPaddleY > canvas.height - paddleHeight) {
+        leftPaddleY = canvas.height - paddleHeight;
+      }
+      if (rightPaddleY < 0) {
+        rightPaddleY = 0;
+      }
+      if (rightPaddleY > canvas.height - paddleHeight) {
+        rightPaddleY = canvas.height - paddleHeight;
+      }
+
+      // Bewege den Ball entsprechend seiner Richtung
+      ballX += ballDX;
+      ballY += ballDY;
+
+      // Prüfe, ob der Ball die Wände berührt
+      if (ballY < ballRadius) {
+        // Der Ball berührt die obere Wand
+        ballY = ballRadius;
+        ballDY = -ballDY;
+      }
+      if (ballY > canvas.height - ballRadius) {
+        // Der Ball berührt die untere Wand
+        ballY = canvas.height - ballRadius;
+        ballDY = -ballDY;
+      }
+
+      // Prüfe, ob der Ball die Schläger berührt
+      if (ballX < paddleWidth + ballRadius) {
+        // Der Ball ist auf der linken Seite
+        if (ballY > leftPaddleY && ballY < leftPaddleY + paddleHeight) {
+          // Der Ball berührt den linken Schläger
+          ballX = paddleWidth + ballRadius;
+          ballDX = -ballDX * 1.1; // Erhöhe die Geschwindigkeit des Balls
+          ballDY = ballDY * 1.1 + (Math.random() * 2 - 1); // Ändere die Richtung des Balls
+        } else {
+          // Der Ball geht am linken Schläger vorbei
+          rightScore++; // Erhöhe die Punktzahl des rechten Spielers
+          resetBall(); // Setze den Ball zurück
+        }
+      }
+      if (ballX > canvas.width - paddleWidth - ballRadius) {
+        // Der Ball ist auf der rechten Seite
+        if (ballY > rightPaddleY && ballY < rightPaddleY + paddleHeight) {
+          // Der Ball berührt den rechten Schläger
+          ballX = canvas.width - paddleWidth - ballRadius;
+          ballDX = -ballDX * 1.1; // Erhöhe die Geschwindigkeit des Balls
+          ballDY = ballDY * 1.1 + (Math.random() * 2 - 1); // Ändere die Richtung des Balls
+        } else {
+          // Der Ball geht am rechten Schläger vorbei
+          leftScore++; // Erhöhe die Punktzahl des linken Spielers
+          resetBall(); // Setze den Ball zurück
+        }
+      }
+
+      // Aktualisiere den Punktestand
+      document.getElementById("score").innerHTML = leftScore + " : " + rightScore;
+
+      // Prüfe, ob das Spiel zu Ende ist
+      if (leftScore == maxScore || rightScore == maxScore) {
+        // Ein Spieler hat die maximale Punktzahl erreicht
+        alert("Das Spiel ist zu Ende. Der Gewinner ist " + (leftScore == maxScore ? "links" : "rechts") + ".");
+        // Setze das Spiel zurück
+        leftScore = 0;
+        rightScore = 0;
+        leftPaddleY = canvas.height / 2 - paddleHeight / 2;
+        rightPaddleY = canvas.height / 2 - paddleHeight / 2;
+        resetBall();
+      }
+    }
+
+    // Definiere eine Funktion, um das Spiel zu zeichnen
+    function draw() {
+      // Lösche das Canvas
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Zeichne die Schläger
+      context.fillStyle = "white";
+      context.fillRect(0, leftPaddleY, paddleWidth, paddleHeight);
+      context.fillRect(canvas.width - paddleWidth, rightPaddleY, paddleWidth, paddleHeight);
+
+      // Zeichne den Ball
+      context.beginPath();
+      context.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+      context.fill();
+      context.closePath();
+    }
+
+    // Definiere eine Funktion, um den Ball zurückzusetzen
+    function resetBall() {
+      // Setze den Ball in die Mitte des Canvas
+      ballX = canvas.width / 2;
+      ballY = canvas.height / 2;
+
+      // Setze die Richtung des Balls zufällig
+      ballDX = Math.random() < 0.5 ? -4 : 4;
+      ballDY = Math.random() * 8 - 4;
+    }
+
+    // Definiere eine Funktion, um die Tasten zu verfolgen
+    function keyDown(event
