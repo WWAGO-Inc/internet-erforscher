@@ -4,33 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Internet Erforscher</title>
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="img/favicon.ico" type="img/x-icon">
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <form onsubmit="openPage(); return false;">
+        <input type="text" id="urlInput" placeholder="Geben Sie die URL ein">
+        <button type="submit">Los!</button>
+    </form>
+    <iframe id="browserFrame" width="800" height="600"></iframe>
 
-  <header>
-    <h1>Welcome To Internet Erforscher!</h1>
-    <p>(Beta 0.0.A)</p>
-  </header>
-
-  <main>
-    <section id="Suche">
-      <form method="post">
-        Suche: <input type="text" name="search">
-        <input type="submit" value="Search">
-      </form>
-    </section>
-
-    <section id="Internet Erforscher Bild">
-      <img src="internet-erforscher.png" alt="Bild Von Internet Erforscher">
-
-      <section id="Knopf">
-        <button onclick="alert('Du hast den Knopf gedrückt!')">Hier klicken</button>   
-      </section>
-  </main>
- 
-    }
+    <script>
+        function openPage() {
+            var url = document.getElementById("urlInput").value;
+            document.getElementById("browserFrame").src = url;
+        }
+    </script>
 </body>
 </html>
