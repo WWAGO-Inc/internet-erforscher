@@ -1,3 +1,5 @@
+
+Welcome To Internet Erforscher 1.2! Enter a Url to go to a site (https://example.com)
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,15 +9,73 @@
 </head>
 <body>
     <form onsubmit="openPage(); return false;">
-        <input type="text" id="urlInput" placeholder="Geben Sie die URL ein">
+        <input type="text" id="urlInput" placeholder="URL eingeben">
         <button type="submit">Los!</button>
     </form>
-    <iframe id="browserFrame" width="1600" height="900"></iframe>
+    
+    <div id="tabs">
+        <ul id="tabList">
+            <!-- Dynamically generated tab list will go here -->
+        </ul>
+        <div id="tabContents">
+            <!-- Dynamically generated iframe tabs will go here -->
+        </div>
+    </div>
 
     <script>
+        var tabs = [];
+
         function openPage() {
             var url = document.getElementById("urlInput").value;
-            document.getElementById("browserFrame").src = url;
+            addTab(url);
+        }
+
+        function addTab(url) {
+            var tabID = 'tab-' + tabs.length;
+            var tabList = document.getElementById("tabList");
+            var tabContents = document.getElementById("tabContents");
+            var iframe = document.createElement('iframe');
+            iframe.setAttribute('id', tabID);
+            iframe.setAttribute('width', '1600');
+            iframe.setAttribute('height', '900');
+            iframe.setAttribute('src', url);
+            tabContents.appendChild(iframe);
+            var li = document.createElement('li');
+            li.innerHTML = '<a href="#" onclick="switchTab(\'' + tabID + '\')">' + url + ' <button onclick="closeTab(\'' + tabID + '\')">x</button></a>';
+            tabList.appendChild(li);
+            tabs.push({
+                id: tabID,
+                url: url,
+                iframe: iframe
+            });
+            switchTab(tabID);
+        }
+
+        function switchTab(tabID) {
+            tabs.forEach(function(tab) {
+                var iframe = tab.iframe;
+                if (tab.id === tabID) {
+                    iframe.style.display = 'block';
+                } else {
+                    iframe.style.display = 'none';
+                }
+            });
+        }
+
+        function closeTab(tabID) {
+            var tabList = document.getElementById("tabList");
+            var tabContents = document.getElementById("tabContents");
+            var indexToRemove = tabs.findIndex(function(tab) {
+                return tab.id === tabID;
+            });
+            if (indexToRemove !== -1) {
+                tabList.removeChild(tabList.childNodes[indexToRemove]);
+                tabContents.removeChild(tabContents.childNodes[indexToRemove]);
+                tabs.splice(indexToRemove, 1);
+                if (tabs.length > 0) {
+                    switchTab(tabs[indexToRemove > 0 ? indexToRemove - 1 : 0].id);
+                }
+            }
         }
     </script>
 </body>
